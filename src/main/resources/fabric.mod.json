@@ -1,0 +1,31 @@
+{
+    "schemaVersion": 1,
+    "id": "${id}",
+    "version": "${version}",
+    "name": "${name}",
+    "description": "${description}",
+    "authors": [
+        "${author}"
+    ],
+    "contact": {
+        "sources": "${sources}",
+        "issues": "${sources}/issues"
+    },
+    "license": "MIT",
+    "icon": "assets/${id}/icon.png",
+    "environment": "${environment}",
+    "entrypoints": {
+        "main": [
+            "com.stalemated.templatemod.loader.TemplateModFabric"
+        ],
+        "client": [
+            "com.stalemated.templatemod.loader.TemplateModFabricClient"
+        ]
+    },
+    "depends": {
+        "fabricloader": ">=${fabric_loader}",
+        "minecraft": "${minecraft}",
+        "java": ">=${java_version}",
+        "fabric-api": "*"
+    }
+}

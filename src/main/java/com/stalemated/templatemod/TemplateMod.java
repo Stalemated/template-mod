@@ -1,0 +1,15 @@
+package com.stalemated.templatemod;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public final class TemplateMod {
+    public static final String MOD_ID = "template_mod";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+    private TemplateMod() {
+    }
+
+    public static void init() {
+    }
+}
