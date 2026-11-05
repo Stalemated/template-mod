@@ -50,6 +50,7 @@ deps.fabric_api = "0.97.1+1.20.4"
 deps.modmenu = "9.2.0"
 
 [neoforge."1.20.4"]
+mod.mc_releases = ["1.20.4"]
 mod.mc_compat = "[1.20.4]"
 deps.neo_loader = "20.4.251"
 

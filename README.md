@@ -87,7 +87,7 @@ Run, build and test:
 | Node    | Minecraft                                   | Fabric | Forge | NeoForge |
 |---------|---------------------------------------------|--------|-------|----------|
 | 1.20.1  | 1.20 - 1.20.1                               | Yes    | Yes   |          |
-| 1.20.4  | 1.20.2 - 1.20.4                             | Yes    |       | Yes      |
+| 1.20.4  | 1.20.2 - 1.20.4 (NeoForge: 1.20.4)          | Yes    |       | Yes      |
 | 1.20.6  | 1.20.5 - 1.20.6                             | Yes    |       | Yes      |
 | 1.21.1  | 1.21 - 1.21.1                               | Yes    |       | Yes      |
 | 1.21.4  | 1.21.2 - 1.21.4                             | Yes    |       | Yes      |
@@ -123,7 +123,7 @@ Run, build and test:
 ### Add a version
 
 1. Add `match("<version>", "<loaders>")` to `settings.gradle.kts`.
-2. Copy the tables of the closest version in `stonecutter.properties.toml` and update `mod.mc_releases`, `mod.mc_compat`, `deps.fabric_api`, `deps.neo_loader`, `deps.yacl` and `deps.modmenu`.
+2. Copy the tables of the closest version in `stonecutter.properties.toml` and update `mod.mc_releases`, `mod.mc_compat`, `deps.fabric_api`, `deps.neo_loader`, `deps.yacl` and `deps.modmenu`. When a loader supports fewer releases than the version table lists, give that loader's table its own `mod.mc_releases`, as `[neoforge."1.20.4"]` does.
 3. Fix what no longer compiles with versioned comments, for example `//? if >=1.21.9 {`.
 
 ## S-Lib

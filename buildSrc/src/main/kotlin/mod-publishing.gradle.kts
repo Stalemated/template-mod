@@ -66,7 +66,7 @@ publishMods {
         lines.subList(start + 1, end).joinToString("\n").trim()
     }
     modLoaders.add(loader)
-    dryRun = providers.gradleProperty("publishDryRun").isPresent
+    dryRun = flag("publishDryRun")
 
     modrinth {
         projectId = providers.provider {

@@ -5,8 +5,8 @@ val loader = sc.current.project.substringAfter('-')
 val minecraft = sc.current.version
 val slibVersion = sc.properties.get<String>("deps.slib")
 val yacl = "dev.isxander:yet-another-config-lib:${sc.properties.get<String>("deps.yacl")}-$loader"
-val slibLocal = providers.gradleProperty("slibLocal").isPresent
-val withYacl = !providers.gradleProperty("noYacl").isPresent
+val slibLocal = flag("slibLocal")
+val withYacl = !flag("noYacl")
 
 data class LoaderConfigurations(val slib: String, val compileOnly: String, val runtimeOnly: String)
 
