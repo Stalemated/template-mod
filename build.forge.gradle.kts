@@ -10,6 +10,7 @@ plugins {
     id("net.neoforged.moddev.legacyforge")
     id("neoforge-mutex")
     id("mod-conventions")
+    id("mod-publishing")
 }
 
 val modId = property("mod.id") as String
@@ -65,6 +66,10 @@ if (providers.systemProperty("idea.sync.active").orNull == "true") {
 mixin {
     add(sourceSets.main.get(), "$modId.refmap.json")
     config("$modId.mixins.json")
+}
+
+publishMods {
+    file = tasks.named<Jar>("reobfJar").flatMap { it.archiveFile }
 }
 
 tasks {

@@ -1,6 +1,7 @@
 plugins {
     id("dev.kikugie.loom-back-compat")
     id("mod-conventions")
+    id("mod-publishing")
 }
 
 dependencies {
@@ -26,6 +27,10 @@ loom {
         runDirectory = rootProject.file("run/${sc.current.project}")
         jvmArguments.add("-Dmixin.debug.export=true")
     }
+}
+
+publishMods {
+    file = loomx.modJar.flatMap { it.archiveFile }
 }
 
 tasks {

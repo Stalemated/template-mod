@@ -8,6 +8,7 @@ plugins {
     id("net.neoforged.moddev")
     id("neoforge-mutex")
     id("mod-conventions")
+    id("mod-publishing")
 }
 
 dependencies {
@@ -33,6 +34,10 @@ neoForge {
             disableIdeRun()
         }
     }
+}
+
+publishMods {
+    file = tasks.jar.flatMap { it.archiveFile }
 }
 
 if (providers.systemProperty("idea.sync.active").orNull == "true") {
