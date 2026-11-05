@@ -52,7 +52,6 @@ tasks {
     }
 
     processResources {
-        val fabricLoader = sc.properties.get<String>("deps.fabric_loader")
         val modMetadata = buildMap {
             put("id", modId)
             put("name", sc.properties.get<String>("mod.name"))
@@ -64,11 +63,13 @@ tasks {
             put("minecraft", sc.properties.get<String>("mod.mc_compat"))
             put("java_version", requiredJava.majorVersion)
             put("mixin_compatibility", "JAVA_${requiredJava.majorVersion}")
-            put("fabric_loader", requireNotNull(Regex("\\d+\\.\\d+").find(fabricLoader)) {
-                "deps.fabric_loader must start with major.minor, got $fabricLoader"
-            }.value)
-            put("neoforge", sc.properties.get<String>("mod.neoforge_compat"))
             put("icon_key", if (sc.current.parsed >= "26.2") "iconFile" else "logoFile")
+            sc.properties.getOrNull<String>("deps.fabric_loader")?.let { fabricLoader ->
+                put("fabric_loader", requireNotNull(Regex("\\d+\\.\\d+").find(fabricLoader)) {
+                    "deps.fabric_loader must start with major.minor, got $fabricLoader"
+                }.value)
+            }
+            sc.properties.getOrNull<String>("mod.neoforge_compat")?.let { put("neoforge", it) }
             sc.properties.getOrNull<String>("deps.slib")?.let { put("slib", it) }
         }
 

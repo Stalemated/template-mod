@@ -8,7 +8,7 @@ A [Stonecutter](https://stonecutter.kikugie.dev/) template for Fabric, Forge and
 
 - JDK 25 to run Gradle.
 - Python 3.10 or newer for `scripts/new_mod.py`.
-- S-Lib in your mavenLocal: (or delete `slibLocal=true` from `gradle.properties` for Modrinth sources)
+- S-Lib in your mavenLocal, because `gradle.properties` sets `slibLocal=true`. Once S-Lib 4.0.0 is on Modrinth, delete that line to download S-Lib from there instead.
 
 ## Create a new mod
 
@@ -117,8 +117,12 @@ Run, build and test:
    - Fabric: `build.fabric.gradle.kts`, `fabric.mod.json`, `loader/TemplateModFabric.java` and `loader/TemplateModFabricClient.java`.
    - Forge: `build.forge.gradle.kts`, `META-INF/mods.toml`, `pack.mcmeta` and `loader/TemplateModForge.java`.
    - NeoForge: `build.neoforge.gradle.kts`, `META-INF/neoforge.mods.toml` and `loader/TemplateModNeoForge.java`.
-4. Leave `constants { match(loader, "fabric", "neoforge", "forge") }` in `stonecutter.gradle.kts` as it is, so every `//? if <loader>` block still parses.
-5. Run `./gradlew build`.
+4. Optionally, delete its keys from `stonecutter.properties.toml`:
+   - Fabric: `deps.fabric_loader`, `loomx.loom_version`, `deps.fabric_api` and `deps.modmenu`.
+   - Forge: `deps.forge_loader`.
+   - NeoForge: `mod.neoforge_compat` and `deps.neo_loader`.
+5. Leave `constants { match(loader, "fabric", "neoforge", "forge") }` in `stonecutter.gradle.kts` as it is, so every `//? if <loader>` block still parses.
+6. Run `./gradlew build`.
 
 ### Add a version
 

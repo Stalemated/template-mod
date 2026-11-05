@@ -9,7 +9,8 @@ from pathlib import Path
 TEMPLATE_ID = 'template_mod'
 PAST_TENSE = {'rewrite': 'rewrote', 'move': 'moved'}
 TEXT_SUFFIXES = {'.java', '.kts', '.json', '.toml', '.mcmeta', '.properties', '.md'}
-SKIPPED_PATHS = {'.git', '.gradle', '.idea', 'build', 'run', 'versions', 'scripts', 'buildSrc/build', 'buildSrc/.gradle', 'README.md'}
+SKIPPED_PATHS = {'.git', '.gradle', '.idea', '.kotlin', 'build', 'run', 'versions', 'out', 'bin', 'classes', 'scripts',
+                 'buildSrc/build', 'buildSrc/.gradle', 'buildSrc/.kotlin', 'README.md'}
 
 PATTERNS = {
     'id': r'^[a-z][a-z0-9_]{1,63}$',
