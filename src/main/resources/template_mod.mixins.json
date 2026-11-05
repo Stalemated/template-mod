@@ -1,0 +1,14 @@
+{
+    "required": true,
+    "package": "com.stalemated.templatemod.mixin",
+    "compatibilityLevel": "${mixin_compatibility}",
+    "minVersion": "0.8",
+    "mixins": [
+        "MinecraftServerMixin"
+    ],
+    "client": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

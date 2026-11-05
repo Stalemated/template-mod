@@ -1,3 +1,5 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.gradle.plugins.ide.idea.model.IdeaModel
 import org.jetbrains.gradle.ext.Gradle
 import org.jetbrains.gradle.ext.ProjectSettings
@@ -10,7 +12,11 @@ plugins {
     id("mod-conventions")
 }
 
+val modId = property("mod.id") as String
+
 dependencies {
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
+
     testRuntimeOnly(files(sourceSets.main.get().runtimeClasspath))
     testRuntimeOnly("org.slf4j:slf4j-api:${property("deps.slf4j")}")
     testRuntimeOnly("org.apache.logging.log4j:log4j-core:${property("deps.log4j")}")
@@ -28,7 +34,7 @@ legacyForge {
     version = property("deps.forge_loader") as String
 
     mods {
-        register(property("mod.id") as String) {
+        register(modId) {
             sourceSet(sourceSets.main.get())
         }
     }
@@ -56,9 +62,25 @@ if (providers.systemProperty("idea.sync.active").orNull == "true") {
     }
 }
 
+mixin {
+    add(sourceSets.main.get(), "$modId.refmap.json")
+    config("$modId.mixins.json")
+}
+
 tasks {
     processResources {
         exclude("fabric.mod.json", "META-INF/neoforge.mods.toml")
+
+        val mixinConfig = destinationDir.resolve("$modId.mixins.json")
+        val refmap = "$modId.refmap.json"
+        doLast {
+            val config = JsonSlurper().parse(mixinConfig) as Map<*, *>
+            mixinConfig.writeText(JsonOutput.toJson(config + ("refmap" to refmap)))
+        }
+    }
+
+    named<Jar>("jar") {
+        manifest.attributes("MixinConfigs" to "$modId.mixins.json")
     }
 
     named("createMinecraftArtifacts") {

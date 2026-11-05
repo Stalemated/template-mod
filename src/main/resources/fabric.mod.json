@@ -22,6 +22,9 @@
             "com.stalemated.templatemod.loader.TemplateModFabricClient"
         ]
     },
+    "mixins": [
+        "${id}.mixins.json"
+    ],
     "depends": {
         "fabricloader": ">=${fabric_loader}",
         "minecraft": "${minecraft}",
