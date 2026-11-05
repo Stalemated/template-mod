@@ -11,6 +11,7 @@ plugins {
     id("neoforge-mutex")
     id("mod-conventions")
     id("mod-publishing")
+    id("slib")
 }
 
 val modId = property("mod.id") as String

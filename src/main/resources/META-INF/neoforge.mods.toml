@@ -30,3 +30,10 @@ type = "required"
 versionRange = "${minecraft}"
 ordering = "NONE"
 side = "BOTH"
+
+[[dependencies.${id}]]
+modId = "s_lib"
+type = "required"
+versionRange = "[${slib},)"
+ordering = "AFTER"
+side = "BOTH"

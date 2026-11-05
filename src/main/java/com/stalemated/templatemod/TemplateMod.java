@@ -1,5 +1,6 @@
 package com.stalemated.templatemod;
 
+import com.stalemated.templatemod.config.TemplateModConfigs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,5 +12,6 @@ public final class TemplateMod {
     }
 
     public static void init() {
+        TemplateModConfigs.register();
     }
 }

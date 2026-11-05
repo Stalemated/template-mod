@@ -2,6 +2,7 @@ plugins {
     id("dev.kikugie.loom-back-compat")
     id("mod-conventions")
     id("mod-publishing")
+    id("slib")
 }
 
 dependencies {

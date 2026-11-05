@@ -9,6 +9,7 @@ plugins {
     id("neoforge-mutex")
     id("mod-conventions")
     id("mod-publishing")
+    id("slib")
 }
 
 dependencies {

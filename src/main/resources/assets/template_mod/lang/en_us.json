@@ -1,0 +1,8 @@
+{
+    "template_mod.config.title": "Template Mod",
+    "template_mod.category.general": "General",
+    "template_mod.option.enabled": "Enabled",
+    "template_mod.option.enabled.desc": "Turns the mod on or off.",
+    "template_mod.option.repeats": "Repeats",
+    "template_mod.option.repeats.desc": "How many times the effect repeats."
+}

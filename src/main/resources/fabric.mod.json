@@ -29,6 +29,7 @@
         "fabricloader": ">=${fabric_loader}",
         "minecraft": "${minecraft}",
         "java": ">=${java_version}",
-        "fabric-api": "*"
+        "fabric-api": "*",
+        "s_lib": ">=${slib}"
     }
 }
