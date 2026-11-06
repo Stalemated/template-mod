@@ -20,10 +20,6 @@ val devMods: Map<String, () -> String> = mapOf(
     "fabric" to { "com.terraformersmc:modmenu:${sc.properties.get<String>("deps.modmenu")}" },
 )
 
-val devLibraries = mapOf(
-    "forge" to listOf("org.quiltmc.parsers:json:0.3.0", "org.quiltmc.parsers:gson:0.3.0"),
-)
-
 val loaderConfiguration = requireNotNull(loaderConfigurations[loader]) {
     "loader must be one of ${loaderConfigurations.keys.toList()}, got '$loader'"
 }
@@ -63,11 +59,5 @@ dependencies {
     if (withYacl) {
         add(loaderConfiguration.runtimeOnly, yacl)
         devMods[loader]?.let { add(loaderConfiguration.runtimeOnly, it()) { isTransitive = false } }
-    }
-}
-
-if (withYacl) {
-    afterEvaluate {
-        devLibraries[loader].orEmpty().forEach { dependencies.add("additionalRuntimeClasspath", it) }
     }
 }

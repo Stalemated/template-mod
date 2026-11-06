@@ -135,7 +135,7 @@ Run, build and test:
 The S-Lib layer adds:
 
 - S-Lib, and YACL as a compile-only dependency plus a development runtime one.
-- Mod Menu in Fabric runs, and the Quilt parsers YACL needs in Forge runs.
+- Mod Menu in Fabric runs.
 - An example synced config in `config/`, its YACL screen and the config button (`SLibConfigScreens`).
 - A JUnit test that builds the screen and checks the lang file (`SLibTesting`).
 - The `s_lib` dependency in the three metadata files, and `s-lib`/`yacl` as publishing relations.
