@@ -8,6 +8,6 @@ public final class TemplateModClient {
     }
 
     public static void init() {
-        SLibConfigScreens.register(TemplateMod.MOD_ID, TemplateModConfigScreen::create);
+        SLibConfigScreens.register(TemplateMod.MOD_ID, () -> TemplateModConfigScreen::create);
     }
 }
