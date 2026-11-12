@@ -49,7 +49,7 @@ class NewModTest(unittest.TestCase):
             new_mod.rename_tree(root, my_mod_names(), dry_run=False)
 
             self.assertEqual([], leftovers(root))
-            self.assertTrue((root / 'src/main/java/com/example/mymod/loader/MyModFabric.java').is_file())
+            self.assertTrue((root / 'src/main/java/com/example/mymod/MyMod.java').is_file())
             self.assertEqual(wrapper, digest(root / 'gradle/wrapper/gradle-wrapper.jar'))
             self.assertEqual(icon, digest(root / 'src/main/resources/assets/my_mod/icon.png'))
             self.assertEqual(readme, digest(root / 'README.md'))

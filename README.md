@@ -39,8 +39,7 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
 | `buildSrc/.../mod-publishing.gradle.kts`                             | maven-publish, Modrinth and CurseForge                                                                                             |
 | `buildSrc/.../slib.gradle.kts`                                       | The S-Lib layer: repositories, S-Lib, YACL and Mod Menu                                                                            |
 | `buildSrc/.../neoforge-mutex.gradle.kts`, `publish-mutex.gradle.kts` | Run one NeoForge decompile and one mavenLocal publish at a time                                                                    |
-| `src/main/java/.../TemplateMod.java`, `TemplateModClient.java`       | Common and client init                                                                                                             |
-| `src/main/java/.../loader/`                                          | One entrypoint per loader, each inside its `//? if <loader>` block                                                                 |
+| `src/main/java/.../TemplateMod.java`, `TemplateModClient.java`       | Common and client entrypoints, with each loader's code inside its `//? if <loader>` block                                          |
 | `src/main/java/.../mixin/`                                           | An example mixin                                                                                                                   |
 | `src/main/java/.../config/`                                          | The S-Lib layer: config model, manager and screen                                                                                  |
 | `src/main/resources/`                                                | `fabric.mod.json`, `META-INF/mods.toml` (Forge), `META-INF/neoforge.mods.toml`, `pack.mcmeta` (Forge), the mixin config and assets |
@@ -114,15 +113,16 @@ Run, build and test:
 1. Move the active node and `vcsVersion` to a node you keep, as above.
 2. Remove the loader from every `match(...)` line.
 3. Delete its files:
-   - Fabric: `build.fabric.gradle.kts`, `fabric.mod.json`, `loader/TemplateModFabric.java` and `loader/TemplateModFabricClient.java`.
-   - Forge: `build.forge.gradle.kts`, `META-INF/mods.toml`, `pack.mcmeta` and `loader/TemplateModForge.java`.
-   - NeoForge: `build.neoforge.gradle.kts`, `META-INF/neoforge.mods.toml` and `loader/TemplateModNeoForge.java`.
-4. Optionally, delete its keys from `stonecutter.properties.toml`:
+   - Fabric: `build.fabric.gradle.kts` and `fabric.mod.json`.
+   - Forge: `build.forge.gradle.kts`, `META-INF/mods.toml` and `pack.mcmeta`.
+   - NeoForge: `build.neoforge.gradle.kts` and `META-INF/neoforge.mods.toml`.
+4. Optionally, delete the loader's branches from the `//? if` blocks in `TemplateMod.java` and `TemplateModClient.java`.
+5. Optionally, delete its keys from `stonecutter.properties.toml`:
    - Fabric: `deps.fabric_loader`, `loomx.loom_version`, `deps.fabric_api` and `deps.modmenu`.
    - Forge: `deps.forge_loader`.
    - NeoForge: `mod.neoforge_compat` and `deps.neo_loader`.
-5. Leave `constants { match(loader, "fabric", "neoforge", "forge") }` in `stonecutter.gradle.kts` as it is, so every `//? if <loader>` block still parses.
-6. Run `./gradlew build`.
+6. Leave `constants { match(loader, "fabric", "neoforge", "forge") }` in `stonecutter.gradle.kts` as it is, so every `//? if <loader>` block still parses.
+7. Run `./gradlew build`.
 
 ### Add a version
 

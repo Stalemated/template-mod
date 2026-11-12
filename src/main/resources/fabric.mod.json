@@ -16,10 +16,10 @@
     "environment": "${environment}",
     "entrypoints": {
         "main": [
-            "com.stalemated.templatemod.loader.TemplateModFabric"
+            "com.stalemated.templatemod.TemplateMod"
         ],
         "client": [
-            "com.stalemated.templatemod.loader.TemplateModFabricClient"
+            "com.stalemated.templatemod.TemplateModClient"
         ]
     },
     "mixins": [
