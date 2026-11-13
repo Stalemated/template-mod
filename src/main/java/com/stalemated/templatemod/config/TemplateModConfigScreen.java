@@ -12,7 +12,7 @@ public final class TemplateModConfigScreen {
     }
 
     public static Screen create(Screen parent) {
-        return builder(parent, TemplateModConfigs.CONFIG).generateScreen();
+        return builder(parent, TemplateModConfigRegistry.CONFIG).generateScreen();
     }
 
     static YaclScreenBuilder builder(Screen parent, ConfigManager<TemplateModConfig> config) {

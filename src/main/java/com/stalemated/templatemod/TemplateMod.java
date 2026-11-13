@@ -1,6 +1,6 @@
 package com.stalemated.templatemod;
 
-import com.stalemated.templatemod.config.TemplateModConfigs;
+import com.stalemated.templatemod.config.TemplateModConfigRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +42,6 @@ implements ModInitializer
     *///?}
 
     private static void init() {
-        TemplateModConfigs.register();
+        TemplateModConfigRegistry.register();
     }
 }

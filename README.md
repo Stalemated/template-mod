@@ -41,7 +41,7 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
 | `buildSrc/.../neoforge-mutex.gradle.kts`, `publish-mutex.gradle.kts` | Run one NeoForge decompile and one mavenLocal publish at a time                                                                    |
 | `src/main/java/.../TemplateMod.java`, `TemplateModClient.java`       | Common and client entrypoints, with each loader's code inside its `//? if <loader>` block                                          |
 | `src/main/java/.../mixin/`                                           | An example mixin                                                                                                                   |
-| `src/main/java/.../config/`                                          | The S-Lib layer: config model, manager and screen                                                                                  |
+| `src/main/java/.../config/`                                          | The S-Lib layer: config model, registry and screen                                                                                 |
 | `src/main/resources/`                                                | `fabric.mod.json`, `META-INF/mods.toml` (Forge), `META-INF/neoforge.mods.toml`, `pack.mcmeta` (Forge), the mixin config and assets |
 | `scripts/`                                                           | `new_mod.py` and its tests                                                                                                         |
 
@@ -157,7 +157,7 @@ The S-Lib layer adds:
 2. Remove `id("slib")` from the three `build.<loader>.gradle.kts`.
 3. Delete `buildSrc/src/main/kotlin/slib.gradle.kts`.
 4. Delete the `config` package under `src/main/java` and its test under `src/test/java`.
-5. Remove `TemplateModConfigs.register();` from `TemplateMod.init()`, the `SLibConfigScreens.register(...)` line from `TemplateModClient.init()`, and their imports.
+5. Remove `TemplateModConfigRegistry.register();` from `TemplateMod.init()`, the `SLibConfigScreens.register(...)` line from `TemplateModClient.init()`, and their imports.
 6. Remove the `"s_lib"` dependency from `fabric.mod.json` and the `s_lib` `[[dependencies.${id}]]` block from both `mods.toml` files.
 7. Delete `assets/<mod id>/lang/en_us.json` if nothing else uses it.
 8. Delete `slibLocal=true` from `gradle.properties`.
