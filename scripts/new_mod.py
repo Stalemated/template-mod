@@ -123,7 +123,8 @@ def main(argv: list[str]) -> int:
 
     for action, detail in changes:
         print(f'would {action} {detail}' if args.dry_run else f'{PAST_TENSE[action]} {detail}')
-    print(f'{len(changes)} changes. Next: rewrite README.md, delete scripts/ and fill publish.modrinth_id and publish.curseforge_id.')
+    print(f'{len(changes)} changes. Next: rewrite README.md and README_CF_MR.md, delete scripts/new_mod.py and scripts/test_new_mod.py, '
+          'and fill publish.modrinth_id and publish.curseforge_id.')
     return 0
 
 

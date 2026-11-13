@@ -7,7 +7,7 @@ A [Stonecutter](https://stonecutter.kikugie.dev/) template for Fabric, Forge and
 ## Requirements
 
 - JDK 25 to run Gradle.
-- Python 3.10 or newer for `scripts/new_mod.py`.
+- Python 3.11 or newer for `scripts/`.
 - S-Lib in your mavenLocal, because `gradle.properties` sets `slibLocal=true`. Once S-Lib 4.0.0 is on Modrinth, delete that line to download S-Lib from there instead.
 
 ## Create a new mod
@@ -22,7 +22,7 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
    - `--class-prefix` sets the prefix of the main classes (default: the id in PascalCase, `MyMod`).
    - `--artifact` sets the jar and Maven name (default: the id with dashes, `my-mod`).
    - `--dry-run` prints the changes without writing them.
-3. Rewrite this README and delete `scripts/`.
+3. Rewrite this README and `README_CF_MR.md`, and delete `scripts/new_mod.py` and `scripts/test_new_mod.py`. Keep `scripts/check_ranges.py` if you will publish one file per range of versions.
 4. Fill `mod.description`, `mod.author`, `mod.sources`, `publish.modrinth_id` and `publish.curseforge_id` in `stonecutter.properties.toml`.
 
 ## Layout
@@ -36,14 +36,17 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
 | `build.forge.gradle.kts`                                             | ModDevGradle legacyforge, mixin refmap and `MixinConfigs`                                                                          |
 | `build.neoforge.gradle.kts`                                          | ModDevGradle; renames `neoforge.mods.toml` to `mods.toml` before 1.20.5                                                            |
 | `buildSrc/.../mod-conventions.gradle.kts`                            | Java version, coordinates, metadata expansion, LICENSE in the jar, JUnit, `buildAndCollect`                                        |
-| `buildSrc/.../mod-publishing.gradle.kts`                             | maven-publish, Modrinth and CurseForge                                                                                             |
+| `buildSrc/.../mod-publishing.gradle.kts`                             | maven-publish, Modrinth and CurseForge, and `publish.nodes`                                                                        |
+| `buildSrc/.../MinecraftReleases.kt`                                  | `mod.mc_releases`, `publish.nodes` and the Minecraft part of the version number                                                    |
 | `buildSrc/.../slib.gradle.kts`                                       | The S-Lib layer: repositories, S-Lib, YACL and Mod Menu                                                                            |
 | `buildSrc/.../neoforge-mutex.gradle.kts`, `publish-mutex.gradle.kts` | Run one NeoForge decompile and one mavenLocal publish at a time                                                                    |
 | `src/main/java/.../TemplateMod.java`, `TemplateModClient.java`       | Common and client entrypoints, with each loader's code inside its `//? if <loader>` block                                          |
 | `src/main/java/.../mixin/`                                           | An example mixin                                                                                                                   |
 | `src/main/java/.../config/`                                          | The S-Lib layer: config model, registry and screen                                                                                 |
 | `src/main/resources/`                                                | `fabric.mod.json`, `META-INF/mods.toml` (Forge), `META-INF/neoforge.mods.toml`, `pack.mcmeta` (Forge), the mixin config and assets |
-| `scripts/`                                                           | `new_mod.py` and its tests                                                                                                         |
+| `Changelog.md`                                                       | The changelog; each `## <mod.version>` section is published with that version                                                      |
+| `README_CF_MR.md`                                                    | The project description for the Modrinth and CurseForge pages                                                                      |
+| `scripts/`                                                           | `new_mod.py`, `check_ranges.py` and their tests                                                                                    |
 
 ## Useful commands
 
@@ -168,7 +171,7 @@ The S-Lib layer adds:
 1. Fill `publish.modrinth_id` and `publish.curseforge_id`, and set `publish.type` to `stable`, `beta` or `alpha`.
 2. Add a `## <mod.version>` section to `Changelog.md`: that section is the published changelog.
 3. Set the `MODRINTH_TOKEN` and `cf_token` environment variables.
-4. Check the upload without sending it. A dry run needs no token:
+4. Check the upload without sending it. A dry run needs no token, and while `publish.modrinth_id` or `publish.curseforge_id` is empty it uses a placeholder id:
 
 ```bash
 ./gradlew publishMods -PpublishDryRun
@@ -180,10 +183,39 @@ The S-Lib layer adds:
 ./gradlew publishMods
 ```
 
-- Each file is published with the version number `<mod.version>+<mc>-<loader>`, so the Modrinth maven serves the right jar for each loader.
+- Each file is published with the version number `<mod.version>+<mc>-<loader>`, so the Modrinth maven serves the right jar for each loader. `<mc>` is the node's version, or its release range when `publish.nodes` is set.
 - `mod.mc_releases` lists the Minecraft versions shown on Modrinth and CurseForge.
 - `mod.environment` (`both`, `client` or `server`) sets Fabric's `environment` and CurseForge's client and server flags.
 - `./gradlew publishToMavenLocal` publishes `<mod.group>:<mod.artifact>-<loader>:<mod.version>+<mc>` for other local projects.
+
+### Publish one file per range of versions
+
+By default every node publishes its own file. When a mod's classes come out the same on several nodes, one file can cover all of them:
+
+1. Build every node from clean, so no jar from an older version name is left in `build/libs`, then list the runs of consecutive nodes with the same classes:
+
+```bash
+./gradlew clean build
+```
+
+```bash
+python scripts/check_ranges.py --groups
+```
+
+   Each line names the node to publish, the oldest of the run (it targets the lowest Java), and the nodes it covers.
+2. List those nodes in `publish.nodes`, for example `publish.nodes = ["1.20.1-fabric", "26.1-fabric"]`. The other nodes still build and run their tests, but don't upload.
+3. In each listed node's loader table, set `mod.mc_releases` to every release the file covers and widen `mod.mc_compat` to match. For example, `[fabric."1.20.1"]` would get `mod.mc_releases = ["1.20", "1.20.1", ..., "1.21.11"]` and `mod.mc_compat = ">=1.20 <=1.21.11"`.
+4. Before every release, check that the ranges still hold:
+
+```bash
+python scripts/check_ranges.py
+```
+
+   It fails when a node isn't covered by exactly one published node, when its classes differ from the published jar's, or when the published jar targets a newer Java than a node it covers.
+5. In game, test the oldest and newest release of each range.
+
+- With `publish.nodes` set, jars and version numbers name the release range instead of the node, for example `<mod.version>+1.20-1.21.11-fabric`.
+- Don't use ranges for a library that other mods pull from the Modrinth maven as `<version>+<mc>-<loader>`, like S-Lib: the range changes that version number.
 
 ## License
 
