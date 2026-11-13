@@ -21,6 +21,7 @@ deps.slib = "4.0.0"
 publish.modrinth_id = ""
 publish.curseforge_id = ""
 publish.type = "stable"
+publish.modrinth_environment = "client_and_server"
 publish.requires = ["s-lib"]
 publish.optional = ["yacl"]
 
@@ -164,7 +165,7 @@ deps.neo_loader = "21.11.45"
 
 
 ["26.1"]
-mod.mc_releases = ["26.1"]
+mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
 deps.yacl = "3.9.7+26.1"
 
 [fabric."26.1"]

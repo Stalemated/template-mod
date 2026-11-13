@@ -12,6 +12,7 @@ MATCH_CALL = re.compile(r'^\s*match\(([^)]*)\)', re.MULTILINE)
 QUOTED = re.compile(r'"([^"]+)"')
 COMPARED_SUFFIXES = ('.class', '.refmap.json')
 CLASS_FILE_JAVA_OFFSET = 44
+LAMBDA_NUMBER = re.compile(rb'(lambda\$[A-Za-z0-9_]+\$)\d+')
 
 
 @dataclass(frozen=True)
@@ -77,7 +78,7 @@ def fingerprint(jar: Path) -> Fingerprint:
             content = archive.read(name)
             if name.endswith('.class'):
                 java = max(java, int.from_bytes(content[6:8], 'big') - CLASS_FILE_JAVA_OFFSET)
-                content = content[:4] + content[8:]
+                content = LAMBDA_NUMBER.sub(rb'\1', content[:4] + content[8:])
             digest.update(f'{name}:{len(content)}\n'.encode())
             digest.update(content)
     return Fingerprint(digest.hexdigest(), java)

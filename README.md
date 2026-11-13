@@ -23,7 +23,7 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
    - `--artifact` sets the jar and Maven name (default: the id with dashes, `my-mod`).
    - `--dry-run` prints the changes without writing them.
 3. Rewrite this README and `README_CF_MR.md`, and delete `scripts/new_mod.py` and `scripts/test_new_mod.py`. Keep `scripts/check_ranges.py` if you will publish one file per range of versions.
-4. Fill `mod.description`, `mod.author`, `mod.sources`, `publish.modrinth_id` and `publish.curseforge_id` in `stonecutter.properties.toml`.
+4. Fill `mod.description`, `mod.author`, `mod.sources`, `publish.modrinth_id`, `publish.curseforge_id` and `publish.modrinth_environment` in `stonecutter.properties.toml`.
 
 ## Layout
 
@@ -98,7 +98,7 @@ Run, build and test:
 | 1.21.8  | 1.21.6 - 1.21.8 (NeoForge: 1.21.7 - 1.21.8) | Yes    |       | Yes      |
 | 1.21.10 | 1.21.9 - 1.21.10                            | Yes    |       | Yes      |
 | 1.21.11 | 1.21.11                                     | Yes    |       | Yes      |
-| 26.1    | 26.1                                        | Yes    |       | Yes      |
+| 26.1    | 26.1 - 26.1.2                               | Yes    |       | Yes      |
 | 26.2    | 26.2                                        | Yes    |       | Yes      |
 | 26.3    | 26.3                                        | Yes    |       | Yes      |
 
@@ -186,6 +186,7 @@ The S-Lib layer adds:
 - Each file is published with the version number `<mod.version>+<mc>-<loader>`, so the Modrinth maven serves the right jar for each loader. `<mc>` is the node's version, or its release range when `publish.nodes` is set.
 - `mod.mc_releases` lists the Minecraft versions shown on Modrinth and CurseForge.
 - `mod.environment` (`both`, `client` or `server`) sets Fabric's `environment` and CurseForge's client and server flags.
+- `publish.modrinth_environment` sets the environment shown on each Modrinth version, with Modrinth's own names: `client_only`, `server_only`, `dedicated_server_only`, `client_and_server`, `client_only_server_optional`, `server_only_client_optional`, `client_or_server`, `client_or_server_prefers_both` or `singleplayer_only`. Without it Modrinth shows the version as unknown.
 - `./gradlew publishToMavenLocal` publishes `<mod.group>:<mod.artifact>-<loader>:<mod.version>+<mc>` for other local projects.
 
 ### Publish one file per range of versions

@@ -64,6 +64,12 @@ class CheckRangesTest(unittest.TestCase):
 
         self.assertEqual([], self.problems_for(PROPERTIES, jars))
 
+    def test_a_lambda_numbered_differently_by_another_javac_still_matches(self):
+        jars = {'1.20.1-fabric': (17, b'invoke lambda$check$1'), '1.21.1-fabric': (21, b'invoke lambda$check$0'),
+                '26.1-fabric': (25, b'official')}
+
+        self.assertEqual([], self.problems_for(PROPERTIES, jars))
+
     def test_a_class_that_differs_inside_a_range_is_reported(self):
         jars = {'1.20.1-fabric': (17, b'same'), '1.21.1-fabric': (21, b'changed'), '26.1-fabric': (25, b'official')}
 
