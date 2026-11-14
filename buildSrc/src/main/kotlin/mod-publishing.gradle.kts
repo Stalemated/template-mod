@@ -11,7 +11,7 @@ plugins {
 
 val sc = extensions.getByType<StonecutterBuildExtension>()
 val loader = sc.current.project.substringAfter('-')
-val dryRunRequested = flag("publishDryRun")
+val dryRunRequested = dryPublishRequested()
 
 val loaderNames = mapOf("fabric" to "Fabric", "forge" to "Forge", "neoforge" to "NeoForge")
 val loaderRequirements = mapOf("fabric" to listOf("fabric-api"))

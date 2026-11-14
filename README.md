@@ -171,11 +171,13 @@ The S-Lib layer adds:
 1. Fill `publish.modrinth_id` and `publish.curseforge_id`, and set `publish.type` to `stable`, `beta` or `alpha`.
 2. Add a `## <mod.version>` section to `Changelog.md`: that section is the published changelog.
 3. Set the `MODRINTH_TOKEN` and `cf_token` environment variables.
-4. Check the upload without sending it. A dry run needs no token, and while `publish.modrinth_id` or `publish.curseforge_id` is empty it uses a placeholder id:
+4. Check the upload without sending it with the `publishModsDryRun` task (group `publishing` of the root project in IntelliJ's Gradle tool window). It runs `publishMods` on every node as a dry run and leaves each upload's files and details in `versions/<node>/build/publishMods/`. Call it by its full name: an abbreviation such as `pMDR` makes it fail without publishing. A dry run needs no token, and while `publish.modrinth_id` or `publish.curseforge_id` is empty it uses a placeholder id:
 
 ```bash
-./gradlew publishMods -PpublishDryRun
+./gradlew publishModsDryRun
 ```
+
+`-PpublishDryRun` does the same for any publish task, for example `./gradlew :1.20.1-fabric:publishMods -PpublishDryRun`.
 
 5. Publish every node, or one with `:<node>:publishMods`:
 
