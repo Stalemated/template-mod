@@ -140,6 +140,7 @@ The S-Lib layer adds:
 - S-Lib, and YACL as a compile-only dependency plus a development runtime one.
 - Mod Menu in Fabric runs.
 - On Forge, Jankson in the test runtime. ModDevGradle legacy adds mods without their dependencies, so without it a test that loads a config file fails with `NoClassDefFoundError: blue/endless/jankson/...`. In game, Jankson comes inside the S-Lib jar.
+- On Forge 1.20.1, the MixinExtras annotations and annotation processor (`deps.mixinextras`), so mixins can use `@WrapOperation` and the other MixinExtras injectors. S-Lib bundles MixinExtras itself from 4.1.0 on; Fabric Loader and NeoForge already ship it.
 - An example synced config in `config/`, its YACL screen and the config button (`SLibConfigScreens`).
 - A JUnit test that builds the screen and checks the lang file (`SLibTesting`).
 - The `s_lib` dependency in the three metadata files, and `s-lib`/`yacl` as publishing relations.
@@ -156,7 +157,7 @@ The S-Lib layer adds:
 ### Remove S-Lib
 
 1. In `stonecutter.properties.toml`:
-   - delete `deps.slib`, `deps.jankson` and every `deps.yacl` and `deps.modmenu` line;
+   - delete `deps.slib`, `deps.jankson`, `deps.mixinextras` and every `deps.yacl` and `deps.modmenu` line;
    - set `publish.requires = []` and `publish.optional = []`.
 2. Remove `id("slib")` from the three `build.<loader>.gradle.kts`.
 3. Delete `buildSrc/src/main/kotlin/slib.gradle.kts`.

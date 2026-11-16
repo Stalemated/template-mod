@@ -24,6 +24,10 @@ val slibTestLibraries: Map<String, () -> String> = mapOf(
     "forge" to { "blue.endless:jankson:${sc.properties.get<String>("deps.jankson")}" },
 )
 
+val mixinExtrasAnnotations: Map<String, () -> String> = mapOf(
+    "forge" to { "io.github.llamalad7:mixinextras-common:${sc.properties.get<String>("deps.mixinextras")}" },
+)
+
 val loaderConfiguration = requireNotNull(loaderConfigurations[loader]) {
     "loader must be one of ${loaderConfigurations.keys.toList()}, got '$loader'"
 }
@@ -66,4 +70,8 @@ dependencies {
     }
 
     slibTestLibraries[loader]?.let { add("testRuntimeOnly", it()) }
+    mixinExtrasAnnotations[loader]?.let {
+        add("compileOnly", it())
+        add("annotationProcessor", it())
+    }
 }

@@ -39,6 +39,7 @@ deps.modmenu = "7.2.2"
 [forge."1.20.1"]
 mod.mc_compat = "[1.20, 1.20.1]"
 deps.forge_loader = "1.20.1-47.4.10"
+deps.mixinextras = "0.5.5"
 
 
 ["1.20.4"]
