@@ -17,6 +17,7 @@ deps.slf4j = "2.0.7"
 deps.log4j = "2.19.0"
 
 deps.slib = "4.0.1"
+deps.jankson = "1.2.3"
 
 publish.modrinth_id = ""
 publish.curseforge_id = ""

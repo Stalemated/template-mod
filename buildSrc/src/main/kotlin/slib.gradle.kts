@@ -20,6 +20,10 @@ val devMods: Map<String, () -> String> = mapOf(
     "fabric" to { "com.terraformersmc:modmenu:${sc.properties.get<String>("deps.modmenu")}" },
 )
 
+val slibTestLibraries: Map<String, () -> String> = mapOf(
+    "forge" to { "blue.endless:jankson:${sc.properties.get<String>("deps.jankson")}" },
+)
+
 val loaderConfiguration = requireNotNull(loaderConfigurations[loader]) {
     "loader must be one of ${loaderConfigurations.keys.toList()}, got '$loader'"
 }
@@ -60,4 +64,6 @@ dependencies {
         add(loaderConfiguration.runtimeOnly, yacl)
         devMods[loader]?.let { add(loaderConfiguration.runtimeOnly, it()) { isTransitive = false } }
     }
+
+    slibTestLibraries[loader]?.let { add("testRuntimeOnly", it()) }
 }

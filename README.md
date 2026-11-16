@@ -38,7 +38,7 @@ python scripts/new_mod.py --id my_mod --name "My Mod" --package com.example.mymo
 | `buildSrc/.../mod-conventions.gradle.kts`                            | Java version, coordinates, metadata expansion, LICENSE in the jar, JUnit, `buildAndCollect`                                        |
 | `buildSrc/.../mod-publishing.gradle.kts`                             | maven-publish, Modrinth and CurseForge, and `publish.nodes`                                                                        |
 | `buildSrc/.../MinecraftReleases.kt`                                  | `mod.mc_releases`, `publish.nodes` and the Minecraft part of the version number                                                    |
-| `buildSrc/.../slib.gradle.kts`                                       | The S-Lib layer: repositories, S-Lib, YACL and Mod Menu                                                                            |
+| `buildSrc/.../slib.gradle.kts`                                       | The S-Lib layer: repositories, S-Lib, YACL, Mod Menu and Jankson for Forge tests                                                   |
 | `buildSrc/.../neoforge-mutex.gradle.kts`, `publish-mutex.gradle.kts` | Run one NeoForge decompile and one mavenLocal publish at a time                                                                    |
 | `src/main/java/.../TemplateMod.java`, `TemplateModClient.java`       | Common and client entrypoints, with each loader's code inside its `//? if <loader>` block                                          |
 | `src/main/java/.../mixin/`                                           | An example mixin                                                                                                                   |
@@ -139,6 +139,7 @@ The S-Lib layer adds:
 
 - S-Lib, and YACL as a compile-only dependency plus a development runtime one.
 - Mod Menu in Fabric runs.
+- On Forge, Jankson in the test runtime. ModDevGradle legacy adds mods without their dependencies, so without it a test that loads a config file fails with `NoClassDefFoundError: blue/endless/jankson/...`. In game, Jankson comes inside the S-Lib jar.
 - An example synced config in `config/`, its YACL screen and the config button (`SLibConfigScreens`).
 - A JUnit test that builds the screen and checks the lang file (`SLibTesting`).
 - The `s_lib` dependency in the three metadata files, and `s-lib`/`yacl` as publishing relations.
@@ -155,7 +156,7 @@ The S-Lib layer adds:
 ### Remove S-Lib
 
 1. In `stonecutter.properties.toml`:
-   - delete `deps.slib` and every `deps.yacl` and `deps.modmenu` line;
+   - delete `deps.slib`, `deps.jankson` and every `deps.yacl` and `deps.modmenu` line;
    - set `publish.requires = []` and `publish.optional = []`.
 2. Remove `id("slib")` from the three `build.<loader>.gradle.kts`.
 3. Delete `buildSrc/src/main/kotlin/slib.gradle.kts`.
